@@ -2,9 +2,10 @@
 # firstaid-emergency-detection-app
 
 1. **Flask App Setup**:
-   - Create a new Flask application and set up the basic structure (routes, templates, static files, etc.).
-   - Implement the user authentication system (login, register, guest user) using Flask-Login or a similar library.
-
+   - setting flask app
+   - create a python virtual env : python3 -m venv feda
+   - cd to cloned repo and install requirments.txt: pip install -r requirments.txt
+     
 2. **CNN Model Integration**:
    - Develop a Convolutional Neural Network (CNN) model to detect medical emergencies based on images of wounds or animal bites, and text-based symptoms.
    - Train and evaluate the model using a suitable dataset.
