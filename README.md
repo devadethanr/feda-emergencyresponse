@@ -1,4 +1,4 @@
-# feda-emergencyresponse
+
 # firstaid-emergency-detection-app
 
 1. **Flask App Setup**:
