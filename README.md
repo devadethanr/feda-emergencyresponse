@@ -3,8 +3,9 @@
 
 1. **Flask App Setup**:
    - setting flask app
-   - create a python virtual env : python3 -m venv feda
-   - cd to cloned repo and install requirments.txt: pip install -r requirments.txt
+   - create a python virtual env : ''' python3 -m venv feda '''
+   - cd to cloned repo and install requirments.txt: ''' pip install -r requirments.txt '''
+   - ''' flask run '''
      
 2. **CNN Model Integration**:
    - Develop a Convolutional Neural Network (CNN) model to detect medical emergencies based on images of wounds or animal bites, and text-based symptoms.
@@ -34,26 +35,41 @@
 
 
 ```
-firstaid_response_app/
 ├── app.py
+├── feda
+│   ├── bin
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── flask
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.11
+│   │   ├── python -> python3
+│   │   ├── python3 -> /usr/bin/python3
+│   │   └── python3.11 -> python3
+│   ├── include
+│   │   └── python3.11
+│   ├── lib
+│   │   └── python3.11
+│   ├── lib64 -> lib
+│   └── pyvenv.cfg
+├── LICENSE
+├── models
+│   ├── db.py
+│   └── user.py
+├── __pycache__
+│   ├── app.cpython-311.pyc
+│   └── app.cpython-312.pyc
+├── README.md
 ├── requirements.txt
-├── templates/
-│   ├── base.html
-│   ├── login.html
-│   ├── register.html
-│   ├── emergency_detection.html
-│   └── video_player.html
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       └── script.js
-├── models/
-│   ├── user.py
-│   ├── emergency_detection.py
-│   └── sensor_data.py
-└── utils/
-    ├── cnn_model.py
-    └── alert_system.py
+├── static
+├── templates
+│   ├── base.html
+│   ├── index.html
+│   ├── login.html
+│   └── register.html
+└── utils
 ```
 
