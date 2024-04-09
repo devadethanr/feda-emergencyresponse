@@ -3,9 +3,9 @@
 
 1. **Flask App Setup**:
    - setting flask app
-   - create a python virtual env : ''' python3 -m venv feda '''
-   - cd to cloned repo and install requirments.txt: ''' pip install -r requirments.txt '''
-   - ''' flask run '''
+   - create a python virtual env : ``` python3 -m venv feda ```
+   - cd to cloned repo and install requirments.txt: ``` pip install -r requirments.txt ```
+   - ``` flask run ```
      
 2. **CNN Model Integration**:
    - Develop a Convolutional Neural Network (CNN) model to detect medical emergencies based on images of wounds or animal bites, and text-based symptoms.
