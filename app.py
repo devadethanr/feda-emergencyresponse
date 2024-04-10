@@ -7,13 +7,18 @@ import bcrypt
 app = Flask(__name__)
 app.secret_key = 'c2637193455ab2085abf115e32195523a38116ffe57f1a9761fe4e1315f95f21'
 app.config['TESTING'] = False
-app.config["MONGO_URI"] = "mongodb://localhost:27017/test"
+app.config["MONGO_URI"] = "mongodb+srv://fedauser:fedauser@fedacluster.aemzpay.mongodb.net/fedadb"
 mongo = PyMongo(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 class User(UserMixin):
+    """_summary_
+
+    Args:
+        UserMixin (_type_): _description_
+    """
     def __init__(self, user_id, email, password):
         self.id = user_id
         self.email = email
@@ -21,6 +26,14 @@ class User(UserMixin):
 
     @staticmethod
     def get(user_id):
+        """_summary_
+
+        Args:
+            user_id (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
         if user_data:
             return User(user_data["_id"], user_data["email"], user_data["password"])
@@ -28,6 +41,16 @@ class User(UserMixin):
 
     @staticmethod
     def create(name, email, password):
+        """_summary_
+
+        Args:
+            name (_type_): _description_
+            email (_type_): _description_
+            password (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         user = {"name": name, "email": email, "password": hashed_password.decode('utf-8')}
         inserted_id = mongo.db.users.insert_one(user).inserted_id
@@ -35,6 +58,14 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
+    """_summary_
+
+    Args:
+        user_id (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return User.get(user_id)
 
 @app.route("/")
@@ -45,6 +76,11 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     return render_template('dashboard.html')
 
 # @app.route("/signin")
@@ -63,11 +99,21 @@ def dashboard():
 @app.route('/logout')
 @login_required
 def logout():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     logout_user()
     return redirect(url_for('login'))
 
 @app.route("/signin", methods=['GET', 'POST'])
 def login():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password'].encode('utf-8')
@@ -89,6 +135,11 @@ def login():
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -101,5 +152,3 @@ def signup():
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('login'))
     return render_template('auth/signup.html')
-
-

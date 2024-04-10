@@ -2,19 +2,10 @@ Flask
 pymongo
 Flask-Login
 Flask-WTF
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 python-dotenv
-=======
-=======
->>>>>>> Stashed changes
 flask_sqlalchemy
 flask_bcrypt
 wtforms
 email_validator
-<<<<<<< Updated upstream
 flask-pymongo
->>>>>>> Stashed changes
-=======
-flask-pymongo
->>>>>>> Stashed changes
+bcrypt
