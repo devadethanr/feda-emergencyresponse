@@ -109,7 +109,6 @@
               <div class="card-body px-4 py-5 px-md-5">
                 {% if error %}
                 <p style="color: red">{{ error }}</p>
-<<<<<<< Updated upstream:templates/auth/signin.html
                 {% endif %} 
                 
                 {% with messages =
@@ -121,23 +120,11 @@
                 {% endfor %} {% endif %} {% endwith %}
                 <form action="#" method="POST">
                   <!-- 2 column grid layout with text inputs for the first and last names -->
-=======
-                {% endif %}
+               
                 <form action="#" method="POST">
                   <!-- 2 column grid layout with text inputs for the first and last names -->
-                  <div class="row">
-                    <div data-mdb-input-init class="form-outline">
-                      <input
-                        type="text"
-                        id="form3Example1"
-                        name="name"
-                        class="form-control"
-                      />
-                      <label class="form-label" for="form3Example1">Name</label>
-                    </div>
-                  </div>
+                  
 
->>>>>>> Stashed changes:templates/register.html
                   <!-- Email input -->
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input

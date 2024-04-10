@@ -40,99 +40,66 @@ def load_user(user_id):
 @app.route("/")
 def index():
     """_summary_"""
-    return render_template('dashboard.html')
+    return render_template('index.html')
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-@app.route("/signin")
+# @app.route("/signin")
+# def login():
+#     """_summary_
+#     """
+#     return render_template('auth/signin.html')
+
+# @app.route("/signup")
+# def signup():
+#     """_summary_
+#     """
+#     return render_template('auth/signup.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route("/signin", methods=['GET', 'POST'])
 def login():
-    """_summary_
-    """
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
+        user = mongo.db.users.find_one({"email": email})
+
+        if user and bcrypt.checkpw(password, user["password"].encode('utf-8')):
+            user_obj = User(user["_id"], user["email"], user["password"])
+            login_user(user_obj)
+            if current_user.is_authenticated:
+                next_url = request.args.get('next')
+                if next_url:
+                    return redirect(next_url)
+                else:
+                    return redirect(url_for('dashboard'))
+        else:
+            return render_template('auth/signin.html', error='Invalid email or password')
     return render_template('auth/signin.html')
 
-@app.route("/signup")
-def signup():
-    """_summary_
-    """
-    return render_template('auth/signup.html')
-=======
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-@app.route("/signin", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password'].encode('utf-8')
-        user = mongo.db.users.find_one({"email": email})
-
-        if user and bcrypt.checkpw(password, user["password"].encode('utf-8')):
-            user_obj = User(user["_id"], user["email"], user["password"])
-            login_user(user_obj)
-            if current_user.is_authenticated:
-                next_url = request.args.get('next')
-                if next_url:
-                    return redirect(next_url)
-                else:
-                    return redirect(url_for('dashboard'))
-        else:
-            return render_template('login.html', error='Invalid email or password')
-    return render_template('login.html')
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
-=======
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-@app.route("/signin", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password'].encode('utf-8')
-        user = mongo.db.users.find_one({"email": email})
-
-        if user and bcrypt.checkpw(password, user["password"].encode('utf-8')):
-            user_obj = User(user["_id"], user["email"], user["password"])
-            login_user(user_obj)
-            if current_user.is_authenticated:
-                next_url = request.args.get('next')
-                if next_url:
-                    return redirect(next_url)
-                else:
-                    return redirect(url_for('dashboard'))
-        else:
-            return render_template('login.html', error='Invalid email or password')
-    return render_template('login.html')
-
-@app.route("/signup", methods=['GET', 'POST'])
-def signup():
->>>>>>> Stashed changes
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         name = request.form['name']
         user = mongo.db.users.find_one({"email": email})
         if user:
-            return render_template('register.html', error='Email already exists')
+            return render_template('auth/signup.html', error='Email already exists')
         else:
             User.create(name, email, password)
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('login'))
-<<<<<<< Updated upstream
-    return render_template('register.html')
->>>>>>> Stashed changes
-=======
-    return render_template('register.html')
->>>>>>> Stashed changes
+    return render_template('auth/signup.html')
+
+
