@@ -20,8 +20,13 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <!-- Section: Design Block -->
@@ -102,15 +107,44 @@
 
             <div class="card bg-glass">
               <div class="card-body px-4 py-5 px-md-5">
-                <form>
+                {% if error %}
+                <p style="color: red">{{ error }}</p>
+<<<<<<< Updated upstream:templates/auth/signup.html
+                {% endif %}
+                <form action="#" method="POST">
                   <!-- 2 column grid layout with text inputs for the first and last names -->
-                 
+                  <div class="row">
+                    <div data-mdb-input-init class="form-outline">
+                      <input
+                        type="text"
+                        id="form3Example1"
+                        name="name"
+                        class="form-control"
+                      />
+                      <label class="form-label" for="form3Example1">Name</label>
+                    </div>
+                  </div>
 
+=======
+                {% endif %} 
+                
+                {% with messages =
+                get_flashed_messages(with_categories=true) %} {% if messages %}
+                {% for category, message in messages %}
+                <div style="color: green" class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+                {% endfor %} {% endif %} {% endwith %}
+                <form action="#" method="POST">
+                  <!-- 2 column grid layout with text inputs for the first and last names -->
+>>>>>>> Stashed changes:templates/login.html
                   <!-- Email input -->
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input
                       type="email"
+                      name="email"
                       id="form3Example3"
+                      name="email"
                       class="form-control"
                     />
                     <label class="form-label" for="form3Example3"
@@ -122,7 +156,9 @@
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input
                       type="password"
+                      name="password"
                       id="form3Example4"
+                      name="password"
                       class="form-control"
                     />
                     <label class="form-label" for="form3Example4"
@@ -131,7 +167,6 @@
                   </div>
 
                   <!-- Checkbox -->
-                 
 
                   <!-- Submit button -->
                   <button
@@ -147,13 +182,13 @@
                   <div class="text-center">
                     <p>or sign in as:</p>
                     <button
-                    type="submit"
-                    data-mdb-button-init
-                    data-mdb-ripple-init
-                    class="btn btn-secondary btn-block mb-4 w-100"
-                  >
-                    Guest
-                  </button>
+                      type="submit"
+                      data-mdb-button-init
+                      data-mdb-ripple-init
+                      class="btn btn-secondary btn-block mb-4 w-100"
+                    >
+                      Guest
+                    </button>
                   </div>
                 </form>
               </div>
