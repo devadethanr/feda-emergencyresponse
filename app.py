@@ -9,15 +9,14 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/auth/login")
+@app.route("/signin")
 def login():
     """_summary_
     """
-    return render_template('login.html')
+    return render_template('auth/signin.html')
 
-    
-@app.route("/auth/signup")
+@app.route("/signup")
 def signup():
     """_summary_
     """
-    return render_template('register.html')
+    return render_template('auth/signup.html')
