@@ -85,6 +85,16 @@ def dashboard():
     """
     return render_template('dashboard.html', name=current_user.name)
 
+@app.route('/profile')
+@login_required
+def profile():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    return render_template('profile.html', name=current_user.name, email=current_user.email)
+
 @app.route('/logout')
 @login_required
 def logout():
