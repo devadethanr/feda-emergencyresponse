@@ -19,10 +19,11 @@ class User(UserMixin):
     Args:
         UserMixin (_type_): _description_
     """
-    def __init__(self, user_id, email, password):
+    def __init__(self, user_id, email, password, name):
         self.id = user_id
         self.email = email
         self.password = password
+        self.name = name
 
     @staticmethod
     def get(user_id):
@@ -36,7 +37,8 @@ class User(UserMixin):
         """
         user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
         if user_data:
-            return User(user_data["_id"], user_data["email"], user_data["password"])
+            return User(user_data["_id"], 
+                        user_data["email"], user_data["password"], user_data["name"])
         return None
 
     @staticmethod
@@ -54,7 +56,7 @@ class User(UserMixin):
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         user = {"name": name, "email": email, "password": hashed_password.decode('utf-8')}
         inserted_id = mongo.db.users.insert_one(user).inserted_id
-        return User(inserted_id, email, hashed_password.decode('utf-8'))
+        return User(inserted_id, email, hashed_password.decode('utf-8'), name)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -81,7 +83,7 @@ def dashboard():
     Returns:
         _type_: _description_
     """
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', name=current_user.name)
 
 @app.route('/logout')
 @login_required
@@ -94,7 +96,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route("/signin", methods=['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     """_summary_
 
@@ -107,7 +109,7 @@ def login():
         user = mongo.db.users.find_one({"email": email})
 
         if user and bcrypt.checkpw(password, user["password"].encode('utf-8')):
-            user_obj = User(user["_id"], user["email"], user["password"])
+            user_obj = User(user["_id"], user["email"], user["password"], user["name"])
             login_user(user_obj)
             if current_user.is_authenticated:
                 next_url = request.args.get('next')
@@ -116,8 +118,8 @@ def login():
                 else:
                     return redirect(url_for('dashboard'))
         else:
-            return render_template('auth/signin.html', error='Invalid email or password')
-    return render_template('auth/signin.html')
+            return render_template('auth/login.html', error='Invalid email or password')
+    return render_template('auth/login.html')
 
 
 @app.route("/signup", methods=['GET', 'POST'])

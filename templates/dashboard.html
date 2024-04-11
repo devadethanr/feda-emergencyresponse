@@ -191,21 +191,21 @@
                   alt=""
                 />
               </span>
-              <span class="user-name"></span>
+              <span class="user-name">{{ name }}  </span>
             </a>
             <div
               class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
             >
               <a class="dropdown-item" href="profile.html"
                 ><i class="dw dw-user1"></i> Profile</a
-              >
+              > 
               <a class="dropdown-item" href="profile.html"
                 ><i class="dw dw-settings2"></i> Setting</a
               >
               <a class="dropdown-item" href="faq.html"
                 ><i class="dw dw-help"></i> Help</a
               >
-              <a class="dropdown-item" href="login.html"
+              <a class="dropdown-item" href="{{url_for('login')}}"
                 ><i class="dw dw-logout"></i> Log Out</a
               >
             </div>
@@ -310,6 +310,7 @@
     <div class="main-container">
       <div class="xs-pd-20-10 pd-ltr-20">
         <div class="title pb-20">
+          <h1>Welcome, {{ name }}!</h1>
           <h2 class="h3 mb-0">Health Overview</h2>
         </div>
 
