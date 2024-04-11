@@ -37,7 +37,7 @@ class User(UserMixin):
         """
         user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
         if user_data:
-            return User(user_data["_id"], 
+            return User(user_data["_id"],
                         user_data["email"], user_data["password"], user_data["name"])
         return None
 
