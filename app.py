@@ -106,6 +106,25 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route("/resetpassword")
+def resetpassword():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    return render_template('auth/reset-password.html')
+
+@app.route("/forgetpassword")
+def forgetpassword():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    return render_template('auth/forget-password.html')
+#https://github.com/dropways/deskapp/blob/master/reset-password.html check this and add other files
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     """_summary_
