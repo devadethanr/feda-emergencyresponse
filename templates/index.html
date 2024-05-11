@@ -156,10 +156,8 @@
           </div>
         </div>
         <div class="text-center">
-          <a href="" class="btn-get-started scrollto d-inline-flex align-items-center">
-            <i class="bi bi-camera me-2" style="font-size: 1.5rem"></i>
-            <span>Open Camera</span>
-          </a>
+          <button class="btn-get-started align-items-center" id="openCameraButton"> Open Camera </button>
+          <button class="btn-get-started align-items-center"id="captureButton" disabled>Capture Image</button>
         </div>
 
         <div class="container p-1 relative">
@@ -173,6 +171,8 @@
                       <i class="fa-solid fa-file-circle-plus text-primary"></i>
                     </div>
                     <div class="text-center pt-1 px-5">
+                      <video id="myVideo" autoplay muted></video>
+                      <img id="capturedImage" alt="Captured Image" style="display: none;">
                       <p class="w-80 h5 text-dark fw-bold">
                         Drag your your photo here to upload.
                       </p>
@@ -248,6 +248,46 @@
       class="back-to-top d-flex align-items-center justify-content-center"
       ><i class="bi bi-arrow-up-short"></i
     ></a>
+    
+    <!-- webRTC For camera -->
+
+    <script>
+      const videoElement = document.getElementById('myVideo');
+      const captureButton = document.getElementById('captureButton');
+      const capturedImage = document.getElementById('capturedImage');
+      const openCameraButton = document.getElementById('openCameraButton');
+
+      function handleError(error) {
+        console.error('Error:', error);
+      }
+
+      function startCamera() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            videoElement.srcObject = stream;
+            captureButton.disabled = false;
+          })
+          .catch(handleError);
+      }
+
+      function captureImage() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        ctx.drawImage(videoElement, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg', 1.0);
+
+        capturedImage.src = imageData;
+        capturedImage.style.display = 'block'; // Display captured image
+      }
+
+      captureButton.addEventListener('click', captureImage);
+      openCameraButton.addEventListener('click', startCamera);
+
+      // Initially disable the capture button as camera is not open yet
+      captureButton.disabled = true; 
+    </script>
 
     <!-- Vendor JS Files -->
     <script src="{{ url_for('static',filename='vendors/purecounter/purecounter_vanilla.js')}}"></script>
