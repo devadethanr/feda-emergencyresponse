@@ -237,6 +237,23 @@
             </div>
           </div>
         </div>
+        <div>
+          <h2>prediction test</h2>
+          <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+              <input type="file" name="image" required>
+              <button type="submit">Predict</button>
+          </form>
+          {% if predictions %}
+          <h2>Predictions:</h2>
+          <ul>
+              {% for label in predictions %}
+              <li>{{ label }}</li>
+              {% endfor %}
+          </ul>
+          {% else %}
+          <p>No objects were detected in the uploaded image.</p>
+          {% endif %}
+        </div>
       </section>
       <!-- End About Section -->
     </main>

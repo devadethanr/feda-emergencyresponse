@@ -1,8 +1,13 @@
+import io
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from bson.objectid import ObjectId
 import bcrypt
+from PIL import Image
+import ultralytics
+import pandas as pd
+
 
 app = Flask(__name__)
 app.secret_key = 'c2637193455ab2085abf115e32195523a38116ffe57f1a9761fe4e1315f95f21'
@@ -12,6 +17,9 @@ mongo = PyMongo(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+# Load the YOLOv8 model
+
+model = ultralytics.YOLO("/home/dev/projects/projects/clients/feda/feda-emergencyresponse/runs/classify/train2/weights/best.pt")
 
 class User(UserMixin):
     """_summary_
@@ -170,3 +178,32 @@ def signup():
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('login'))
     return render_template('auth/signup.html')
+
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    """This function is called when the user uploads an image to be predicted.
+    
+    Keyword arguments:
+    argument -- description
+    Return: return_description
+    """
+    file = request.files['image']
+    # Convert the file to a PIL Image object
+    img = Image.open(io.BytesIO(file.read()))
+    # Run the prediction
+    results = model.predict(source=img, conf=0.25)
+    # Process the results
+    predictions = []
+    labels = []
+    if results:
+        for result in results:
+            boxes = result.boxes
+            if boxes:
+                for box in boxes:
+                    prediction = box.data.tolist()
+                    label = model.model.names[int(prediction[5])]
+                    predictions.append(prediction)
+                    labels.append(label)
+    # Render the index.html template with predictions
+    return render_template('index.html', predictions=labels)
